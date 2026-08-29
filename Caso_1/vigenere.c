@@ -47,12 +47,12 @@ __declspec(naked) int ajustarRangoByte(int valor) {
 /* ---------------------------------------
    Rutina principal a traducir. Parámetros por pila
 --------------------------------------- */
-int transformarBytesClave(unsigned char *buffer,
-                         int longitud,
-                         unsigned char *clave,
-                         int tamClave,
-                         int indiceClave,
-                         int modo) {
+int transformarBytesClave(unsigned char *buffer, //8
+                         int longitud, // 12
+                         unsigned char *clave, // 16
+                         int tamClave, // 20
+                         int indiceClave, //24
+                         int modo) {  // 28
 
     int i;
     int valorByte;
@@ -89,7 +89,28 @@ __declspec(naked) int transformarBytesClave(unsigned char *buffer, int longitud,
                                             unsigned char *clave, int tamClave,
                                             int indiceClave, int modo) {
     __asm {
-        // tu traducción, comentada instrucción por instrucción
+        push ebp 
+        mov ebp, esp 
+        sub esp, 16
+
+        mov dword ptr [ebp-4],0
+
+        ciclo: 
+            mov eax, [ebp-4]
+            cmp eax, [ebp+12]
+            jge finD 
+
+                mov ecx, [ebp+8] // buffer 
+                movzx edx, byte ptr [ecx + eax] // buffe [i]
+                mov [ebp-8], edx // valorByte 
+
+                mov ecx, [ebp+16]// calve 
+                mov edx, [ebp+24] // indiceClave 
+                movzx edx, byte ptr [ecx + edx]// clave[indiceClave]
+                mov [ebp-12], edx // valorClave
+
+                
+
     }
 }
 
