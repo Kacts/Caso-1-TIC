@@ -25,6 +25,24 @@ int  ajustarRangoByte(int valor) {
     return valor;
 }
 
+__declspec(naked) int ajustarRangoByte(int valor) {
+    __asm {
+
+        CMP EAX, 255 
+        jle elsen 
+        SUB EAX, 256
+
+    elsen: 
+        CMP EAX, 0
+        jge finSi
+        ADD EAX, 256
+        
+    finSi:
+        ret
+
+    }
+}
+
 
 /* ---------------------------------------
    Rutina principal a traducir. Parámetros por pila
@@ -66,6 +84,15 @@ int transformarBytesClave(unsigned char *buffer,
 
     return indiceClave;
 }
+
+__declspec(naked) int transformarBytesClave(unsigned char *buffer, int longitud,
+                                            unsigned char *clave, int tamClave,
+                                            int indiceClave, int modo) {
+    __asm {
+        // tu traducción, comentada instrucción por instrucción
+    }
+}
+
 
 /* ---------------------------------------
    Procesamiento del archivo
