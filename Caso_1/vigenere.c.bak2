@@ -102,12 +102,12 @@ __declspec(naked) int transformarBytesClave(unsigned char *buffer, int longitud,
         mov dword ptr [ebp-4],0 // i = 0 
 
         ciclo: 
-            mov eax, [ebp-4]// carga i 
+            mov eax, [ebp-4]// moviendo mi i a eax 
             cmp eax, [ebp+12]// compara i con longitud 
-            jge finD              // si i >= longitud, termina el ciclo
+            jge finD  // i < longitud 
 
                 mov ecx, [ebp+8] // buffer 
-                movzx edx, byte ptr [ecx + eax] // buffer[i]
+                movzx edx, byte ptr [ecx + eax] // buffe [i]
                 mov [ebp-8], edx // valorByte 
 
                 mov ecx, [ebp+16]// clave 
@@ -117,22 +117,22 @@ __declspec(naked) int transformarBytesClave(unsigned char *buffer, int longitud,
                 
                 mov ecx, [ebp+28] // modo 
                 cmp ecx, CIFRAR // compara modo con CIFRAR 
-                jne elses // si modo != CIFRAR, salta a la resta
+                jne elses // modo == CIGRAR
 
-                    mov edx, [ebp-8] // carga valorByte 
+                    mov edx, [ebp-8] // valorByte = edx 
                     add edx, [ebp-12]// valorByte + valorClave 
                     mov [ebp-16], edx // temp 
                     jmp finSi
 
         elses:
-            mov edx, [ebp-8] // carga valorByte 
+            mov edx, [ebp-8] // valorByte = edx 
             sub edx, [ebp-12]// valorByte - valorClave 
             mov [ebp-16], edx // temp 
 
         finSi:
-            mov eax, [ebp-16]     // temp -> EAX: la subrutina recibe por registro
-            call ajustarRangoByte // temp = ajustarRangoByte(temp)       
-            mov [ebp-16], eax     // el valor de retorno llega en EAX
+            mov eax, [ebp-16]     //            
+            call ajustarRangoByte // todo eso == temp = ajustarRangoByte(temp); ni idea por que :,C       
+            mov [ebp-16], eax     //  
             
             mov eax, [ebp-4]        // recarga i (se perdió después del call)
             mov ecx, [ebp+8]        // buffer
