@@ -3,7 +3,7 @@
    Traduccion a ensamblador de ajustarRangoByte y transformarBytesClave
 
    Juan David Godoy Rojas - 202424711
-   [NOMBRE DEL COMPANERO] - [CODIGO]
+   Miguel Antonio Ibañez Cosulich - 202325628
    ------------------------------------------------------------- */
 #include <stdio.h>
 #include <stdlib.h>
